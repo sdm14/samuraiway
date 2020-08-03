@@ -21,7 +21,6 @@ const mapDispatchToProps = (dispatch) => {
          },
          sendMessage: () => {
             dispatch(sendMessageActionCreator())
-            dispatch(updateNewMessageBodyActionCreator(''))
          }
       }
    )
