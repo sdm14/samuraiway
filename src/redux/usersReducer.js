@@ -1,34 +1,14 @@
 const TOGGLE_FOLLOW = 'TOGGLE_FOLLOW'
 const SET_USERS = 'SET_USERS'
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT'
 
 
 let initialstate = {
-   users: [
-      // {
-      //    id: 1,
-      //    photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTmKR9NH4kpsBqdDJb8Wi52EtHoUBnK83-0-w&usqp=CAU",
-      //    followed: true,
-      //    fullName: 'Daulet',
-      //    status: 'first status',
-      //    location: { city: 'Kostanai', country: 'KZ' }
-      // },
-      // {
-      //    id: 2,
-      //    photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTmKR9NH4kpsBqdDJb8Wi52EtHoUBnK83-0-w&usqp=CAU",
-      //    followed: false,
-      //    fullName: 'Niyaz',
-      //    status: 'second status',
-      //    location: { city: 'Almaty', country: 'KZ' }
-      // },
-      // {
-      //    id: 3,
-      //    photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTmKR9NH4kpsBqdDJb8Wi52EtHoUBnK83-0-w&usqp=CAU",
-      //    followed: true,
-      //    fullName: 'Ulan',
-      //    status: 'thirth status',
-      //    location: { city: 'Astana', country: 'KZ' }
-      // }
-   ]
+   users: [],
+   pageSize: 5,
+   totalUsersCount: 0,
+   currentPage: 1
 }
 
 
@@ -49,7 +29,19 @@ export const usersReducer = (state = initialstate, action) => {
       case SET_USERS:
          return {
             ...state,
-            users: [...state.users, ...action.users]
+            users: [...action.users]
+         }
+
+      case SET_CURRENT_PAGE:
+         return {
+            ...state,
+            currentPage: action.currentPage
+         }
+
+      case SET_TOTAL_COUNT:
+         return {
+            ...state,
+            totalUsersCount: action.totalCount
          }
 
       default:
@@ -57,5 +49,7 @@ export const usersReducer = (state = initialstate, action) => {
    }
 }
 
+export const setTotalCountAC = (totalCount) => ({ type: SET_TOTAL_COUNT, totalCount })
+export const setCurrentPageAC = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage })
 export const toggleFollowAC = (userId) => ({ type: TOGGLE_FOLLOW, userId })
 export const setUsersAC = (users) => ({ type: SET_USERS, users })
