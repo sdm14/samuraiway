@@ -1,10 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { toggleFollow, setUsers, setCurrentPage, setTotalCount, toggleIsLoading, toggleFollowProgress } from '../../redux/usersReducer'
+import { toggleFollow, toggleFollowProgress, onPageChangeThunkCreator, getUserThunkCreator, followThunkCreator, unfollowThunkCreator } from '../../redux/usersReducer'
 import Users from './Users'
 import Preloader from '../Common/Preloader/Preloader'
-import { userApi } from '../../api/api'
-
 
 
 class UsersContainer extends React.Component {
@@ -14,23 +12,11 @@ class UsersContainer extends React.Component {
    }
 
    componentDidMount() {
-      this.props.toggleIsLoading(true)
-      userApi.getUsers(this.props.currentPage, this.props.pageSize)
-         .then(data => {
-            this.props.toggleIsLoading(false)
-            this.props.setUsers(data.items)
-            this.props.setTotalCount(data.totalCount)
-         })
+      this.props.getUserThunkCreator(this.props.currentPage, this.props.pageSize)
    }
 
    onPageChange = (pageNumber) => {
-      this.props.setCurrentPage(pageNumber)
-      this.props.toggleIsLoading(true)
-      userApi.getUsers(pageNumber, this.props.pageSize)
-         .then(data => {
-            this.props.toggleIsLoading(false)
-            this.props.setUsers(data.items)
-         })
+      this.props.onPageChangeThunkCreator(pageNumber, this.props.pageSize)
    }
 
    render() {
@@ -41,9 +27,9 @@ class UsersContainer extends React.Component {
                currentPage={this.props.currentPage}
                onPageChange={this.onPageChange}
                users={this.props.users}
-               toggleFollow={this.props.toggleFollow}
-               toggleFollowProgress={this.props.toggleFollowProgress}
                followProgress={this.props.followProgress}
+               followThunkCreator={this.props.followThunkCreator}
+               unfollowThunkCreator={this.props.unfollowThunkCreator}
             />}
       </>
    }
@@ -63,5 +49,5 @@ const mapStateToProps = (state) => {
 
 
 export default connect(mapStateToProps,
-   { toggleFollow, setUsers, setCurrentPage, setTotalCount, toggleIsLoading, toggleFollowProgress })
+   { toggleFollow, toggleFollowProgress, getUserThunkCreator, onPageChangeThunkCreator, followThunkCreator, unfollowThunkCreator })
    (UsersContainer)

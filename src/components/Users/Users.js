@@ -34,29 +34,11 @@ const Users = (props) => {
                   </div>
                   <div>
                      {u.followed
-                        ? <button disabled={props.followProgress.some(id => id === u.id)} onClick={() => {
-                           props.toggleFollowProgress(true, u.id)
-                           userApi.deleteUnfollow(u.id)
-                              .then(data => {
-                                 if (data.resultCode === 0) {
-                                    props.toggleFollow(u.id)
-                                 }
-                                 props.toggleFollowProgress(false, u.id)
-                              })
-                        }}>
+                        ? <button disabled={props.followProgress.some(id => id === u.id)} onClick={() => props.unfollowThunkCreator(u.id)}>
                            Unfollow
                         </button>
 
-                        : <button disabled={props.followProgress.some(id => id === u.id)} onClick={() => {
-                           props.toggleFollowProgress(true, u.id)
-                           userApi.postFollow(u.id)
-                              .then(data => {
-                                 if (data.resultCode === 0) {
-                                    props.toggleFollow(u.id)
-                                 }
-                                 props.toggleFollowProgress(false, u.id)
-                              })
-                        }}>
+                        : <button disabled={props.followProgress.some(id => id === u.id)} onClick={() => props.followThunkCreator(u.id)}>
                            Follow
                         </button>}
                   </div>
