@@ -125,4 +125,5 @@ export const unfollowThunkCreator = (userId) => {
             dispatch(toggleFollowProgress(false, userId))
          })
    }
-} 
+}
+

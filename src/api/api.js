@@ -18,5 +18,13 @@ export const userApi = {
    deleteUnfollow(id) {
       return axiosInstance.delete(`/follow/${id}`).then(res => res.data)
    },
+   getProfile(userId) {
+      return axiosInstance.get(`/profile/${userId}`).then(res => res.data)
+   }
 }
 
+export const authApi = {
+   getAuthMe() {
+      return axiosInstance.get(`/auth/me`).then(res => res.data)
+   }
+}
