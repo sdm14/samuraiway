@@ -6,6 +6,9 @@ const Navbar = () => {
    return (
       <nav className={s.nav}>
          <div className={s.item}>
+            <NavLink to="/login" activeClassName={s.active}>Login</NavLink>
+         </div>
+         <div className={s.item}>
             <NavLink to="/profile" activeClassName={s.active}>Profile</NavLink>
          </div>
          <div className={s.item}>
