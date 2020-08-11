@@ -19,7 +19,22 @@ export const userApi = {
       return axiosInstance.delete(`/follow/${id}`).then(res => res.data)
    },
    getProfile(userId) {
+      console.log('Не актуальный метод, profileAPI')
+      return profileApi.getProfile(userId)
+   }
+}
+
+export const profileApi = {
+   getProfile(userId) {
       return axiosInstance.get(`/profile/${userId}`).then(res => res.data)
+   },
+
+   getStatus(userId) {
+      return axiosInstance.get(`/profile/status/${userId}`)
+   },
+
+   updateStatus(status) {
+      return axiosInstance.put(`/profile/status`, { status: status })
    }
 }
 
