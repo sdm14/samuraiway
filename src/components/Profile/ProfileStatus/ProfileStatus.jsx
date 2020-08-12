@@ -11,12 +11,21 @@ class ProfileStatus extends React.Component {
       this.setState({
          editMode: !this.state.editMode
       })
+      this.props.updateStatusThunkCreator(this.state.status)
    }
 
    onStatusChange = (event) => {
       this.setState({
          status: event.target.value
       })
+   }
+
+   componentDidUpdate(prevProps, prevState) {
+      if (prevProps.status !== this.props.status) {
+         this.setState({
+            status: this.props.status
+         })
+      }
    }
 
    render() {
@@ -31,7 +40,7 @@ class ProfileStatus extends React.Component {
                   />
                </div>
                : <div>
-                  <span onDoubleClick={this.activateMode}>{!this.state.status && 'No status'}</span>
+                  <span onDoubleClick={this.activateMode}>{this.props.status ? this.props.status : 'No status'}</span>
                </div>
             }
          </div>
