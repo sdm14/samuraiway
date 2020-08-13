@@ -66,7 +66,7 @@ export const setStatus = (status) => {
    return ({ type: SET_STATUS, status })
 }
 
-export const setStatusThunkCreator = (userId) => {
+export const getStatusThunkCreator = (userId) => {
    return (dispatch) => {
       profileApi.getStatus(userId).then(res => {
          dispatch(setStatus(res.data))
