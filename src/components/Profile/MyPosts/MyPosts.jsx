@@ -1,18 +1,32 @@
 import React from 'react'
 import Post from './Post/Post'
 import s from './MyPosts.module.css'
+import { Field, reduxForm } from 'redux-form'
+
+const MyPostsForm = (props) => {
+   return (
+      <form onSubmit={props.handleSubmit}>
+         <div>
+            <Field placeholder={"Ваш пост"} name={"text"} component={"textarea"} />
+         </div>
+         <div>
+            <button type={"submit"}>Add post</button>
+         </div>
+      </form >
+   )
+}
+
+const MyPostsReduxForm = reduxForm({ form: 'MyPost' })(MyPostsForm)
 
 const MyPosts = (props) => {
 
    let postsElements = props.postData
       .map(post => <Post message={post.message} likesCount={post.likesCount} />)
 
-   let onPostChange = (event) => {
-      props.updateNewPostText(event.target.value)
-   }
 
-   let newPost = () => {
-      props.newPost()
+   const sendData = (formData) => {
+      props.newPost(formData.text)
+      formData.text = ''
    }
 
    return (
@@ -21,12 +35,7 @@ const MyPosts = (props) => {
          <div>
             New post
          </div>
-         <div>
-            <textarea onChange={onPostChange} value={props.newTextPost} />
-         </div>
-         <div>
-            <button onClick={newPost}>Add post</button>
-         </div>
+         <MyPostsReduxForm onSubmit={sendData} />
          {postsElements}
       </div>
    )

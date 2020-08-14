@@ -2,19 +2,32 @@ import React from 'react'
 import s from './Dialogs.module.css'
 import DialogItem from './DialogItem/DialogItem'
 import Message from './Message/Message'
-import { Redirect } from 'react-router-dom'
+import { reduxForm, Field } from 'redux-form'
+
+
+const DialogsForm = (props) => {
+   return (
+      <form onSubmit={props.handleSubmit}>
+         <div>
+            <Field placeholder={"Ваш текст"} name={"text"} component={"textarea"} />
+         </div>
+         <div>
+            <button type={"submit"}>Send message</button>
+         </div>
+      </form>
+   )
+}
+
+const DialogsReduxForm = reduxForm({ form: "Dialogs" })(DialogsForm)
 
 const Dialogs = (props) => {
 
    let dialogElements = props.dialogsData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />)
    let messagesElements = props.messagesData.map(messages => <Message message={messages.message} />)
 
-   let sendMessage = () => {
-      props.sendMessage()
-   }
-
-   let onMessageChange = (event) => {
-      props.onMessageChange(event.target.value)
+   const sendDialog = (formData) => {
+      props.sendMessage(formData.text)
+      formData.text = ''
    }
 
    return (
@@ -24,11 +37,7 @@ const Dialogs = (props) => {
          </div>
          <div className={s.messages}>
             <div>{messagesElements}</div>
-            <div>
-               <div><textarea onChange={onMessageChange} value={props.newMessageBody}></textarea></div>
-               <div><button onClick={sendMessage}>Send Message</button></div>
-            </div>
-
+            <DialogsReduxForm onSubmit={sendDialog} />
          </div>
       </div>
    )
