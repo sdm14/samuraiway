@@ -24,15 +24,13 @@ export const authReducer = (state = initialState, action) => {
 export const setAuthUserData = (userId, email, login, isAuth) => ({ type: SET_USER_DATA, data: { userId, email, login, isAuth } })
 
 
-export const getAuthMeThunkCreator = () => {
-   return (dispatch) => {
-      authApi.getAuthMe().then(data => {
-         if (data.resultCode === 0) {
-            let { id, email, login } = data.data
-            dispatch(setAuthUserData(id, email, login, true))
-         }
-      })
-   }
+export const getAuthMeThunkCreator = () => (dispatch) => {
+   return authApi.getAuthMe().then(data => {
+      if (data.resultCode === 0) {
+         let { id, email, login } = data.data
+         dispatch(setAuthUserData(id, email, login, true))
+      }
+   })
 }
 
 export const login = (email, password, rememberMe) => (dispatch) => {
